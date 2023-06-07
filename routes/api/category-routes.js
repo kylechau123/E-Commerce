@@ -7,7 +7,9 @@ router.get('/', (req, res) => {
   // find all categories
   // be sure to include its associated Products
 
-  Category.findAll()
+  Category.findAll({
+    include: Product
+  })
   .then(results => {
     res.json(results)
   })
@@ -17,7 +19,9 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
-  Category.findByPk(req.params.id)
+  Category.findByPk(req.params.id, {
+    include: Product
+  })
   .then(results => {
     res.json(results)
   })
@@ -36,7 +40,9 @@ router.put('/:id', (req, res) => {
   Category.update(
     req.body,
     {
-      id: req.params.id
+      where: {
+        id: req.params.id
+      }
     },
     {
       new: true
@@ -49,7 +55,9 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
   Category.destroy({
-    id: req.params.id
+    where: {
+      id: req.params.id
+    }
   }).then(results => {
     res.json(results)
   })
